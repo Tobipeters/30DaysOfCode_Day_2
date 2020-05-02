@@ -10,17 +10,33 @@ radius = radius * 0.90;
 //Function to Draw the CLock 
 drawClock = () => {
     ctx.arc(0, 0, radius, 0, 2 * Math.PI);
-    ctx.fillStyle = "rgba(6, 6, 35, 0.73);";
+    ctx.fillStyle = "rgba(6, 6, 35, 0.73)";
     ctx.stroke();
+    clockFace(ctx, radius);
     clockNumbers(ctx, radius);
     setTime(ctx, radius);
 }
-// clockFace = (ctx, radius) => {
-//     ctx.beginPath();
-//     ctx.arc(0, 0, radius, 0, 2 * Math.PI);
-//     ctx.fillStyle = 'rgba(6, 6, 35, 0.73);';
-//     ctx.stroke();
-// }
+clockFace = (ctx, radius) => {
+    var grad;
+
+    ctx.beginPath();
+    ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+    ctx.fillStyle = 'white';
+    ctx.fill();
+
+    grad = ctx.createRadialGradient(0, 0, radius * 0.95, 0, 0, radius * 1.05);
+    grad.addColorStop(0, 'rgba(6, 6, 35, 0.73)');
+    grad.addColorStop(0.5, 'white');
+    grad.addColorStop(1, 'rgba(6, 6, 35, 0.73)');
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = radius * 0.1;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(0, 0, radius * 0.1, 0, 2 * Math.PI);
+    ctx.fillStyle = 'rgba(6, 6, 35, 0.73)';
+    ctx.fill();
+}
 
 clockNumbers = (ctx, radius) => {
     var angle;
@@ -59,7 +75,7 @@ setTime = (ctx, radius) => {
     var second = time.getSeconds();
     var minute = time.getMinutes();
     var hour = time.getHours();
-
+    console.log(`${hour} : ${minute} : ${second}`)
     //hour 
     hour = hour % 12;
     hour = (hour * Math.PI / 6) + (minute * Math.PI / (6 * 60)) + (second * Math.PI / (360 * 60));
@@ -70,7 +86,8 @@ setTime = (ctx, radius) => {
     // second
     second = (second * Math.PI / 30);
     clockHand(ctx, second, radius * 0.9, radius * 0.02);
-    console.log(time)
+ 
+    
 }
 
 //Calling drawClock function 
